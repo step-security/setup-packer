@@ -1,6 +1,6 @@
 name: Setup Packer
 description: Set up Packer CLI in your GitHub Actions workflow
-author: 'step-security'
+author: Sora Morimoto
 branding:
   icon: package
   color: blue
@@ -14,5 +14,5 @@ inputs:
     description: The version to use
     default: latest
 runs:
-  using: node24
+  using: node20
   main: dist/index.js

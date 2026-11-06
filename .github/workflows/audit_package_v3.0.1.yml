@@ -1,0 +1,25 @@
+name: NPM Audit Fix Run - v3.0.1
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Use --force flag for npm audit fix?"
+        required: true
+        type: boolean
+  schedule:
+    - cron: "0 0 * * 1"
+
+jobs:
+  audit-fix-v3.0.1:
+    uses: step-security/reusable-workflows/.github/workflows/audit_fix.yml@v1
+    with:
+      force: ${{ inputs.force || false }}
+      base_branch: v3.0.1-main
+      package_manager: yarn
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: read
+  issues: write

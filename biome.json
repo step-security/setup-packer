@@ -1,34 +1,24 @@
 {
-	"$schema": "node_modules/@biomejs/biome/configuration_schema.json",
-	"files": {
-		"includes": ["**", "!!dist", "!!.claude"]
-	},
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true,
-		"defaultBranch": "master"
-	},
-	"linter": {
-		"enabled": true,
-		"domains": {
-			"project": "recommended"
-		},
-		"rules": {
-			"preset": "recommended",
-			"complexity": {
-				"useLiteralKeys": "off"
-			}
-		}
-	},
-	"formatter": {
-		"enabled": true,
-		"useEditorconfig": true
-	},
-	"assist": {
-		"enabled": true,
-		"actions": {
-			"recommended": true
-		}
-	}
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": ["./dist"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
 }
