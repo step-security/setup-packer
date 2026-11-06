@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout tree
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v7
 
       - name: Set-up Node.js LTS
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+        uses: actions/setup-node@v7
         with:
           node-version: lts/*
 
@@ -49,47 +49,8 @@ jobs:
 
     steps:
       - name: Checkout tree
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v7
 
       - name: Use latest Packer
         uses: ./
 
-  build-and-push:
-    name: Build and Push
-
-    if: ${{ github.event_name == 'pull_request' && github.actor == 'renovate[bot]' }}
-
-    permissions:
-      contents: write
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout tree
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          fetch-depth: 2
-          ref: ${{ github.head_ref }}
-
-      - name: Set-up Node.js LTS
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
-        with:
-          node-version: lts/*
-
-      - run: corepack enable
-
-      - run: yarn install --immutable
-
-      - run: yarn build
-
-      - name: Get last commit message
-        id: last-commit-message
-        run: echo "message=$(git log -1 --pretty=%s)" >>"$GITHUB_OUTPUT"
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
-        with:
-          commit_message: ${{ steps.last-commit-message.outputs.message }}
-          commit_options: --amend --no-edit
-          push_options: --force
-          skip_fetch: true
