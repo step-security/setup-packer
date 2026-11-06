@@ -13,33 +13,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-
       - name: Checkout tree
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7
 
-      - name: Set-up Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - name: Set-up Node.js LTS
+        uses: actions/setup-node@v7
         with:
-          node-version: 24
-          cache: npm
+          node-version: lts/*
 
-      - run: npm ci
+      - run: corepack enable
 
-      - run: npm run format:check
+      - run: yarn install --immutable
 
-      - run: npm run lint
+      - run: yarn format:check
 
-      - run: npm run type-check
+      - run: yarn lint
+
+      - run: yarn type-check
 
       - name: Ensure dist directory is up-to-date
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          npm run build
+          yarn build
           if [ "$(git status dist --porcelain | wc -l)" -gt "0" ]; then
             echo "Detected uncommitted changes after build. See status below:"
             git diff
@@ -52,13 +48,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-
       - name: Checkout tree
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7
 
       - name: Use latest Packer
         uses: ./
+

@@ -2,6 +2,8 @@
 
 # setup-packer
 
+[![Builds, tests & co](https://github.com/step-security/setup-packer/actions/workflows/main.yml/badge.svg)](https://github.com/step-security/setup-packer/actions)
+
 Set up and cache the Packer CLI.
 
 ## Roadmap
@@ -12,7 +14,7 @@ that only work on one operating system or manipulate the Packer CLI itself.
 ## Usage
 
 Currently, the semantic versioning style does not support to specify the version
-of the packer itself. If you want to use a version other than the latest one,
+of the packer itself. ​If you want to use a version other than the latest one,
 be sure to specify the exact version.
 
 ### Example workflow
@@ -30,15 +32,15 @@ jobs:
 
     steps:
       - name: Checkout tree
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Use latest Packer
-        uses: step-security/setup-packer@v4
+        uses: step-security/setup-packer@v3
 
       # or
 
       - name: Use latest Packer
-        uses: step-security/setup-packer@v4
+        uses: step-security/setup-packer@v3
         with:
           packer-version: 1.6.5
 
@@ -46,15 +48,32 @@ jobs:
         run: packer build TEMPLATE
 ```
 
-### How to specify the version of the action itself
+### ​How to specify the version of the action itself
 
 There is a point that is particularly easy to misunderstand. It's where you
 specify the version of the action _itself_.
 
 ```yml
 - name: Use latest Packer
-  uses: step-security/setup-packer@v4
+  uses: step-security/setup-packer@v3
   #                                   ^^^
+```
+
+We recommend that you include the version of the action. We adhere to
+[semantic versioning](https://semver.org), it's safe to use the major version
+(`v2`) in your workflow. If you use the master branch, this could break your
+workflow when we publish a breaking update and increase the major version.
+
+```yml
+steps:
+  # Reference the major version of a release (most recommended)
+  - uses: step-security/setup-packer@v3
+  # Reference a specific commit (most strict)
+  - uses: step-security/setup-packer@792b061
+  # Reference a semver version of a release (not recommended)
+  - uses: step-security/setup-packer@v3.0.0
+  # Reference a branch (most dangerous)
+  - uses: step-security/setup-packer@master
 ```
 
 ## Inputs
