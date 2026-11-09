@@ -59,23 +59,6 @@ specify the version of the action _itself_.
   #                                   ^^^
 ```
 
-We recommend that you include the version of the action. We adhere to
-[semantic versioning](https://semver.org), it's safe to use the major version
-(`v2`) in your workflow. If you use the master branch, this could break your
-workflow when we publish a breaking update and increase the major version.
-
-```yml
-steps:
-  # Reference the major version of a release (most recommended)
-  - uses: step-security/setup-packer@v3
-  # Reference a specific commit (most strict)
-  - uses: step-security/setup-packer@792b061
-  # Reference a semver version of a release (not recommended)
-  - uses: step-security/setup-packer@v3.0.0
-  # Reference a branch (most dangerous)
-  - uses: step-security/setup-packer@master
-```
-
 ## Inputs
 
 - `github-token`: The API token for the action to get the latest release of

@@ -21,21 +21,19 @@ jobs:
         with:
           node-version: lts/*
 
-      - run: corepack enable
+      - run: npm ci
 
-      - run: yarn install --immutable
+      - run: npm run format:check
 
-      - run: yarn format:check
+      - run: npm run lint
 
-      - run: yarn lint
-
-      - run: yarn type-check
+      - run: npm run type-check
 
       - name: Ensure dist directory is up-to-date
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          yarn build
+          npm run build
           if [ "$(git status dist --porcelain | wc -l)" -gt "0" ]; then
             echo "Detected uncommitted changes after build. See status below:"
             git diff
@@ -53,4 +51,3 @@ jobs:
 
       - name: Use latest Packer
         uses: ./
-
